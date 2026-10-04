@@ -110,7 +110,7 @@ dialog .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1
   <div class="card">
     <table>
       <thead id="th"></thead>
-      <tbody id="tb"><tr><td colspan="3" class="empty">Memuat…</td></tr></tbody>
+      <tbody id="tb"><tr><td colspan="2" class="empty">Memuat…</td></tr></tbody>
     </table>
   </div>
 </div>
@@ -167,7 +167,7 @@ function render() {
       <div><a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title || host(r.url))}</a><div class="url">${esc(host(r.url))}</div></div></div></td>
     <td class="desc${r.descr ? '' : ' none'}">${esc(r.descr || 'Tidak ada keterangan')}</td>
     ${S.editing ? `<td class="del"><button class="x" data-del="${r.id}" title="Hapus">🗑</button></td>` : ''}</tr>`).join('')
-    : `<tr><td colspan="3" class="empty">${q ? 'Tidak ada yang cocok.' : 'Belum ada link. Tempel link di atas lalu tekan Tambah.'}</td></tr>`;
+    : `<tr><td colspan="${S.editing ? 3 : 2}" class="empty">${q ? 'Tidak ada yang cocok.' : 'Belum ada link. Tempel link di atas lalu tekan Tambah.'}</td></tr>`;
 }
 
 // ---------- auto title + keterangan ----------
