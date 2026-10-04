@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>if (Math.min(screen.width, screen.height) <= 820) document.querySelector('meta[name=viewport]').content = 'width=device-width, initial-scale=0.9, minimum-scale=0.9, maximum-scale=0.9, viewport-fit=cover';</script>
+<title>Links</title>
+<meta name="description" content="Links: bank list link dengan keterangan otomatis, sinkron real time di HP dan laptop.">
+<meta name="theme-color" content="#2f6fdf">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%232f6fdf'/><path d='M44 58a14 14 0 0 0 20 0l10-10a14 14 0 0 0-20-20l-4 4M56 42a14 14 0 0 0-20 0L26 52a14 14 0 0 0 20 20l4-4' fill='none' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>">
+<style>
+:root { color-scheme: light dark;
+  --bg: #f4f6fa; --card: #fff; --text: #172033; --muted: #69738a; --line: #e2e6ee; --head: #f7f9fc;
+  --accent: #2f6fdf; --accent-text: #fff; --danger: #d64545; --hover: #f2f6ff; --ok: #1f9d55; }
+@media (prefers-color-scheme: dark) { :root {
+  --bg: #0f131a; --card: #171c25; --text: #e6eaf2; --muted: #8d97ab; --line: #273041; --head: #1c2330;
+  --accent: #5b8ff0; --accent-text: #fff; --danger: #ef6464; --hover: #1d2534; --ok: #3fc07a; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { padding: 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+.wrap { display: flex; flex-direction: column; gap: 16px; }
+header { display: flex; align-items: center; gap: 12px; }
+header h1 { margin: 0; font-size: 22px; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
+header h1 svg { width: 30px; height: 30px; }
+.sub { color: var(--muted); font-size: 13px; }
+.sp { flex: 1; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.dot.on { background: var(--ok); }
+button, input, textarea { font: inherit; color: inherit; }
+.btn { border: 1px solid var(--line); background: var(--card); padding: 9px 14px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+.btn:hover { background: var(--hover); }
+.btn.pri { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-weight: 600; }
+.btn.pri:disabled { opacity: .55; cursor: default; }
+.btn.dng { color: var(--danger); border-color: var(--danger); }
+.btn.on { background: var(--danger); border-color: var(--danger); color: #fff; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.add { padding: 14px; display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.inp { width: 100%; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 9px 12px; outline: none; }
+.inp:focus { border-color: var(--accent); }
+.prev { grid-column: 1 / -1; display: none; grid-template-columns: 2fr 3fr; gap: 10px; }
+.prev.show { display: grid; }
+.prev textarea { resize: vertical; min-height: 40px; }
+.hint { grid-column: 1 / -1; font-size: 13px; color: var(--muted); min-height: 0; }
+.hint:empty { display: none; }
+.hint.err { color: var(--danger); }
+.bar { display: flex; gap: 10px; align-items: center; }
+.bar .inp { flex: 1; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--head); padding: 10px 14px; font-weight: 600; }
+th:first-child { border-top-left-radius: 14px; } th:last-child { border-top-right-radius: 14px; }
+td { padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+tr:hover td { background: var(--hover); }
+th.c-lk { width: 38%; } th.del { width: 56px; }
+.lk { display: flex; gap: 10px; align-items: flex-start; }
+.lk img { width: 20px; height: 20px; border-radius: 5px; flex: none; margin-top: 2px; background: var(--line); }
+.lk a { color: var(--text); text-decoration: none; font-weight: 600; }
+.lk a:hover { color: var(--accent); text-decoration: underline; }
+.url { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.desc { color: var(--text); font-size: 14px; }
+.desc.none { color: var(--muted); font-style: italic; }
+td.del { padding: 8px 10px 0 0; text-align: right; }
+.x { border: 1px solid var(--danger); color: var(--danger); background: transparent; border-radius: 8px; width: 36px; height: 32px; cursor: pointer; font-size: 15px; }
+.x:hover { background: var(--danger); color: #fff; }
+.empty { padding: 40px 14px; text-align: center; color: var(--muted); }
+.ebar { display: none; padding: 10px 14px; background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger); border-radius: 10px; font-size: 14px; align-items: center; gap: 10px; }
+.editing .ebar { display: flex; }
+dialog { border: 1px solid var(--line); border-radius: 16px; background: var(--card); color: var(--text); padding: 20px; width: min(360px, calc(100vw - 32px)); }
+dialog::backdrop { background: rgb(0 0 0 / .45); }
+dialog h3 { margin: 0 0 6px; }
+dialog p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+dialog .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; }
+.pin { text-align: center; font-size: 22px; letter-spacing: .4em; }
+@media (max-width: 640px) {
+  body { padding: 12px; }
+  header h1 { font-size: 19px; }
+  .add { grid-template-columns: 1fr auto; padding: 12px; }
+  .prev { grid-template-columns: 1fr; }
+  th.c-lk { width: 44%; }
+  td, th { padding: 10px; }
+  th.del { width: 46px; } td.del { padding: 6px 6px 0 0; }
+  .lk img { width: 16px; height: 16px; }
+  .desc { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="root">
+  <header>
+    <h1><svg viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#2f6fdf"/><path d="M44 58a14 14 0 0 0 20 0l10-10a14 14 0 0 0-20-20l-4 4M56 42a14 14 0 0 0-20 0L26 52a14 14 0 0 0 20 20l4-4" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/></svg>Links</h1>
+    <span class="sub"><span class="dot" id="dot"></span> <span id="count">…</span></span>
+    <span class="sp"></span>
+    <button class="btn" id="editBtn">✏️ Edit</button>
+  </header>
+
+  <form class="card add" id="addForm" autocomplete="off">
+    <input class="inp" id="url" type="text" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="Tempel link di sini, mis. https://canva.com" required>
+    <button class="btn pri" id="addBtn" type="submit">＋ Tambah</button>
+    <div class="prev" id="prev">
+      <input class="inp" id="ttl" placeholder="Judul link" maxlength="300">
+      <textarea class="inp" id="dsc" rows="2" placeholder="Keterangan (otomatis)" maxlength="2000"></textarea>
+    </div>
+    <div class="hint" id="hint"></div>
+  </form>
+
+  <div class="ebar"><span>🔓 Mode Edit — tekan 🗑 untuk menghapus link.</span><span class="sp"></span><button class="btn" id="doneBtn">Selesai</button></div>
+
+  <div class="bar"><input class="inp" id="q" type="search" placeholder="🔍 Cari link atau keterangan…"></div>
+
+  <div class="card">
+    <table>
+      <thead id="th"></thead>
+      <tbody id="tb"><tr><td colspan="3" class="empty">Memuat…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<dialog id="pwDlg">
+  <form method="dialog" id="pwForm">
+    <h3>🔒 Buka Edit</h3>
+    <p>Masukkan password untuk mengedit bank list.</p>
+    <input class="inp pin" id="pw" type="password" inputmode="numeric" autocomplete="off" maxlength="20" placeholder="••••••">
+    <div class="hint err" id="pwErr" style="margin-top:8px"></div>
+    <div class="row"><button class="btn" type="button" id="pwCancel">Batal</button><button class="btn pri" id="pwOk">Buka</button></div>
+  </form>
+</dialog>
+
+<dialog id="delDlg">
+  <h3>Hapus link?</h3>
+  <p id="delTxt"></p>
+  <div class="row"><button class="btn" id="delNo">Batal</button><button class="btn on" id="delYes">Hapus</button></div>
+</dialog>
+
+<script>
+const SB_URL = 'https://bbptcxpzzvgpxqylkrmw.supabase.co', SB_KEY = 'sb_publishable_Ny-WHCEZ3WmcLFsPBx9QeQ_9xgo7MxR'; // public key; table closed, only lk_* functions
+const $ = id => document.getElementById(id);
+const S = { rows: [], pass: sessionStorage.getItem('links.pass') || '', editing: false, meta: null, metaFor: '' };
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+async function rpc(fn, args = {}) {
+  let err;
+  for (let i = 0; i < 3; i++) {
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, { method: 'POST', cache: 'no-store', headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args) });
+      const j = await r.json().catch(() => null);
+      if (!r.ok) throw new Error(j?.message || 'HTTP ' + r.status);
+      return j;
+    } catch (e) { err = e; if (/invalid|limit/.test(e.message)) break; await new Promise(r => setTimeout(r, 400 * (i + 1))); }
+  }
+  throw err;
+}
+
+// ---------- list ----------
+async function load() {
+  try { S.rows = await rpc('lk_list'); $('dot').classList.add('on'); try { localStorage.setItem('links.cache', JSON.stringify(S.rows)); } catch {} }
+  catch { $('dot').classList.remove('on'); }
+  render();
+}
+function host(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } }
+function render() {
+  const q = $('q').value.trim().toLowerCase();
+  const rows = S.rows.filter(r => !q || (r.title + ' ' + r.url + ' ' + r.descr).toLowerCase().includes(q));
+  $('count').textContent = S.rows.length + ' link';
+  $('th').innerHTML = `<tr><th class="c-lk">Link</th><th>Keterangan</th>${S.editing ? '<th class="del"></th>' : ''}</tr>`;
+  $('tb').innerHTML = rows.length ? rows.map(r => `<tr>
+    <td><div class="lk"><img loading="lazy" alt="" src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(host(r.url))}&sz=64" onerror="this.style.visibility='hidden'">
+      <div><a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title || host(r.url))}</a><div class="url">${esc(host(r.url))}</div></div></div></td>
+    <td class="desc${r.descr ? '' : ' none'}">${esc(r.descr || 'Tidak ada keterangan')}</td>
+    ${S.editing ? `<td class="del"><button class="x" data-del="${r.id}" title="Hapus">🗑</button></td>` : ''}</tr>`).join('')
+    : `<tr><td colspan="3" class="empty">${q ? 'Tidak ada yang cocok.' : 'Belum ada link. Tempel link di atas lalu tekan Tambah.'}</td></tr>`;
+}
+
+// ---------- auto title + keterangan ----------
+const KNOWN = { 'youtube.com': 'Platform berbagi dan menonton video.', 'youtu.be': 'Video di YouTube.', 'google.com': 'Mesin pencari Google.', 'drive.google.com': 'Penyimpanan file di Google Drive.', 'docs.google.com': 'Dokumen / spreadsheet Google.', 'github.com': 'Tempat menyimpan dan berbagi kode (repository).', 'instagram.com': 'Media sosial berbagi foto dan video.', 'facebook.com': 'Media sosial Facebook.', 'x.com': 'Media sosial X (Twitter).', 'twitter.com': 'Media sosial X (Twitter).', 'tiktok.com': 'Platform video pendek.', 'wa.me': 'Chat WhatsApp.', 'web.whatsapp.com': 'WhatsApp versi web.', 'tokopedia.com': 'Marketplace belanja online.', 'shopee.co.id': 'Marketplace belanja online.', 'canva.com': 'Alat desain grafis online.', 'chatgpt.com': 'Asisten AI ChatGPT.', 'claude.ai': 'Asisten AI Claude.', 'tradingview.com': 'Grafik dan analisis pasar trading.', 'linkedin.com': 'Jejaring profesional dan lowongan kerja.', 'wikipedia.org': 'Ensiklopedia online.', 'maps.google.com': 'Peta dan navigasi.' };
+function known(u) { const h = host(u); for (const k in KNOWN) if (h === k || h.endsWith('.' + k)) return KNOWN[k]; return ''; }
+function normUrl(v) { v = v.trim(); if (!v) return ''; if (!/^https?:\/\//i.test(v)) v = 'https://' + v; try { const u = new URL(v); return u.hostname.includes('.') ? u.href : ''; } catch { return ''; } }
+async function toId(t) {
+  if (!t || /\b(yang|dan|untuk|dengan|adalah|di|ini)\b/i.test(t)) return t;
+  try {
+    const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=id&dt=t&q=' + encodeURIComponent(t.slice(0, 1500)));
+    const j = await r.json(); const out = (j[0] || []).map(x => x[0]).join('');
+    return out || t;
+  } catch { return t; }
+}
+async function fetchMeta(u) {
+  let title = '', descr = '';
+  try {
+    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 9000);
+    const j = await (await fetch('https://api.microlink.io/?url=' + encodeURIComponent(u), { signal: ctl.signal })).json();
+    if (j.status === 'success') { title = (j.data.title || '').trim(); descr = (j.data.description || '').trim(); }
+  } catch {}
+  if (!descr) descr = known(u);
+  else descr = await toId(descr);
+  if (!title) title = host(u);
+  if (!descr) descr = 'Situs web ' + host(u) + '.';
+  return { title: title.slice(0, 300), descr: descr.slice(0, 2000) };
+}
+let metaTimer, metaSeq = 0;
+function hint(t, err) { $('hint').textContent = t || ''; $('hint').classList.toggle('err', !!err); }
+async function getMeta(u) {
+  if (S.metaFor === u && S.meta) return S.meta;
+  const my = ++metaSeq; hint('⏳ Mengambil judul & keterangan…');
+  const m = await fetchMeta(u);
+  if (my !== metaSeq) return m;
+  S.meta = m; S.metaFor = u;
+  $('ttl').value = m.title; $('dsc').value = m.descr; $('prev').classList.add('show'); hint('');
+  return m;
+}
+$('url').addEventListener('input', () => {
+  clearTimeout(metaTimer); const u = normUrl($('url').value);
+  if (!u) { $('prev').classList.remove('show'); S.meta = null; S.metaFor = ''; hint(''); return; }
+  if (u !== S.metaFor) metaTimer = setTimeout(() => getMeta(u), 700);
+});
+
+$('addForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const u = normUrl($('url').value);
+  if (!u) return hint('Link tidak valid. Contoh: https://canva.com', true);
+  if (S.rows.some(r => r.url.replace(/\/$/, '') === u.replace(/\/$/, ''))) return hint('Link ini sudah ada di bank list.', true);
+  $('addBtn').disabled = true;
+  try {
+    if (S.metaFor !== u) await getMeta(u);
+    const title = $('ttl').value.trim() || host(u), descr = $('dsc').value.trim();
+    hint('⏳ Menyimpan…');
+    await rpc('lk_add', { p_url: u, p_title: title, p_descr: descr });
+    $('addForm').reset(); $('prev').classList.remove('show'); S.meta = null; S.metaFor = ''; hint('✓ Link ditambahkan.');
+    setTimeout(() => hint(''), 2000);
+    await load(); ping();
+  } catch (err) { hint('Gagal menyimpan: ' + err.message, true); }
+  finally { $('addBtn').disabled = false; }
+});
+
+$('q').addEventListener('input', render);
+
+// ---------- edit (password) ----------
+function setEditing(on) { S.editing = on; $('root').classList.toggle('editing', on); $('editBtn').classList.toggle('on', on); $('editBtn').textContent = on ? '🔓 Edit' : '✏️ Edit'; render(); }
+$('editBtn').onclick = () => {
+  if (S.editing) return setEditing(false);
+  if (S.pass) return setEditing(true); // already unlocked in this tab; server re-checks on every delete
+  $('pw').value = ''; $('pwErr').textContent = ''; $('pwDlg').showModal(); $('pw').focus();
+};
+$('doneBtn').onclick = () => setEditing(false);
+$('pwCancel').onclick = e => { e.preventDefault(); $('pwDlg').close(); };
+$('pwForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const p = $('pw').value.trim(); if (!p) return;
+  $('pwOk').disabled = true; $('pwErr').textContent = '';
+  try {
+    const r = await rpc('lk_unlock', { p_pass: p });
+    if (r.ok) { S.pass = p; sessionStorage.setItem('links.pass', p); $('pwDlg').close(); setEditing(true); }
+    else $('pwErr').textContent = r.status === 'locked' ? 'Terlalu banyak percobaan. Coba lagi 15 menit lagi.' : 'Password salah.';
+  } catch (err) { $('pwErr').textContent = 'Tidak bisa menghubungi server.'; }
+  finally { $('pwOk').disabled = false; }
+});
+let delId = null;
+$('tb').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if (!b || !S.editing) return;
+  delId = +b.dataset.del; const r = S.rows.find(x => x.id === delId);
+  $('delTxt').textContent = (r?.title || '') + ' — ' + (r?.url || ''); $('delDlg').showModal();
+});
+$('delNo').onclick = () => $('delDlg').close();
+$('delYes').onclick = async () => {
+  $('delDlg').close();
+  try {
+    const r = await rpc('lk_del', { p_pass: S.pass, p_ids: [delId] });
+    if (!r.ok) { sessionStorage.removeItem('links.pass'); S.pass = ''; setEditing(false); alert(r.status === 'locked' ? 'Edit terkunci sementara. Coba lagi nanti.' : 'Password tidak berlaku, buka Edit lagi.'); return; }
+    S.rows = S.rows.filter(x => x.id !== delId); render(); ping(); load();
+  } catch (err) { alert('Gagal menghapus: ' + err.message); }
+};
+
+// ---------- realtime: broadcast pings + 10 s check ----------
+let chan;
+async function live() {
+  try {
+    if (!window.supabase) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+    const sb = window.supabase.createClient(SB_URL, SB_KEY);
+    chan = sb.channel('links-all').on('broadcast', { event: 'chg' }, () => load()).subscribe();
+  } catch {}
+}
+function ping() { try { chan?.send({ type: 'broadcast', event: 'chg', payload: { t: Date.now() } }); } catch {} }
+setInterval(() => { if (!document.hidden) load(); }, 10000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+
+try { S.rows = JSON.parse(localStorage.getItem('links.cache') || '[]'); if (S.rows.length) render(); } catch {}
+load(); live();
+</script>
+</body>
+</html>
